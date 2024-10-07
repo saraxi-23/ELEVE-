@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        body {
+            font-family: Roboto;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        
+        header {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+            background-color: #ffcece;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            display: block;
+            justify-content: flex-end;
+            text-align: center;
+            align-items: center;
+        }
+           
+        nav ul {
+            list-style: inside;
+            padding: 0;
+        }
+    
+        nav ul li {
+            display: inline-table;
+            margin: 0 15px;
+        }
+    
+        nav ul li a {
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+        }
+    
+        .featured-products {
+            padding: 20px;
+            text-align: center;
+        }
+    
+        .product-grid {
+            display: flex; /* Changed to flex */
+            justify-content: space-around;
+            flex-wrap: wrap; /* Allow wrapping */
+        }
+    
+        .product {
+            background-color: rgb(255, 255, 255);
+            border: 1px solid #ffffff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px;
+            width: 200px; /* Default width */
+            text-align: center;
+        }
+    
+        .product img {
+            max-width: 100%;
+            height: auto; /* Ensure image maintains aspect ratio */
+        }
+    
+        @media (max-width: 600px) {
+            .product {
+                width: 45%; /* Two columns on small screens */
+            }
+        }
+    
+        @media (max-width: 400px) {
+            .product {
+                width: 100%; /* Full width on extra small screens */
+            }
+        }
+    </style>
+    
+    
+<head>
+  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELEVA Shop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+
+  <header>
+   
+    <style>
+        
+    </style>
+    <nav>
+        <ul>
+            <li><a href="#">Woman</a></li>
+            <li><a href="">Men</a></li>
+            <li><a href="#">Kids</a></li>
+            <li><a href="#">Sale</a></li>
+            <li><a href="cart.html">Cart</a></li> 
+        
+        </ul>
+    </nav>
+</header>
+
+      
+    <main>
+        <section class="hero">
+            <h1>Fall Sale: Up to 50% Off!</h1>
+        </section>
+
+        <section class="featured-products">
+            <h2>ELEVA Product</h2>
+            <div class="product-grid">
+                <div class="product">
+                    <img src="product1.jpg" alt="Black T-shirt">
+                    <h3>Low top sneaker</h3>
+                    <p>75 JD</p>
+                    <button>Add to Cart</button>
+                </div>
+                <div class="product">
+                    <img src="product2.jpg" alt="Nike Dunk High">
+                    <h3>Low top sneaker</h3>
+                    <p>95 JD</p>
+                    <button>Add to Cart</button>
+                </div>
+                <div class="product">
+                    <img src="product3.jpg" alt="Product 3">
+                    <h3>Low top sneaker</h3>
+                    <p>50 JD</p>
+                    <button>Add to Cart</button>
+                </div>
+                <div class="product">
+                  <img src="product4.jpg" alt="Nike Dunk High">
+                  <h3>Lysandre</h3>
+                  <p>95 JD</p>
+                  <button>Add to Cart</button>
+              </div><div class="product">
+                <img src="product5.jpg" alt="Nike Dunk High">
+                <h3>sandal- heels</h3>
+                <p>95 JD</p>
+                <button>Add to Cart</button>
+            </div><div class="product">
+              <img src="product6.jpg" alt="Nike Dunk High">
+              <h3> Wicked x ALDO</h3>
+              <p>95 JD</p>
+              <button>Add to Cart</button>
+          </div>
+          <div class="product">
+            <img src="product7.jpg" alt="Nike Dunk High">
+            <h3>Ameliebucketx</h3>
+            <p>95 JD</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product">
+          <img src="product8.jpg" alt="Nike Dunk High">
+          <h3>Low top sneaker</h3>
+          <p>95 JD</p>
+          <button>Add to Cart</button>
+      </div>
+      <div class="product">
+        <img src="product9.jpg" alt="Nike Dunk High">
+        <h3>Laredoox</h3>
+        <p>95 JD</p>
+        <button>Add to Cart</button>
+    </div>
+            </div>
+        </section>
+    </main>
+    <script>
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+      document.querySelectorAll('.product button').forEach(button => {
+          button.addEventListener('click', (event) => {
+              const productElement = event.target.closest('.product');
+              const productName = productElement.querySelector('h3').innerText;
+              const productPrice = productElement.querySelector('p').innerText;
+              const productImage = productElement.querySelector('img').src; // Get the image source
+  
+              const product = { name: productName, price: productPrice, image: productImage }; // Include the image
+  
+              cart.push(product);
+              localStorage.setItem('cart', JSON.stringify(cart));
+              alert(`${productName} has been added to your cart!`);
+          });
+      });
+  </script>
+  
+  
+  
+
+</body>
+</html>

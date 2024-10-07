@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        /* Your existing CSS here */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+        #cart-items li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #cart-items img {
+            max-width: 100px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #3498db;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .total {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        .payment-form {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .payment-form input {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .payment-form button {
+            width: 100%;
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+    <ul id="cart-items"></ul>
+    <div class="total" id="total-price"></div>
+    <div class="payment-form">
+        <h2>Payment Information</h2>
+        <input type="text" id="customer-name" placeholder="Full Name" required>
+        <input type="email" id="customer-email" placeholder="Email" required>
+        <input type="text" id="customer-address" placeholder="Shipping Address" required>
+        <button id="checkout-button">Proceed to Checkout</button>
+    </div>
+    <a href="shop.html">Continue Shopping</a>
+    
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartItemsElement = document.getElementById('cart-items');
+        const totalPriceElement = document.getElementById('total-price');
+
+        function updateCartDisplay() {
+            cartItemsElement.innerHTML = ''; // Clear the current display
+            if (cart.length === 0) {
+                cartItemsElement.innerHTML = '<li>Your cart is empty.</li>';
+                totalPriceElement.textContent = ''; // Clear total price
+            } else {
+                let total = 0; // Initialize total price
+                cart.forEach((item, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" style="width: 100px; height: auto;">
+                        ${item.name} - ${item.price}
+                        <button class="remove" data-index="${index}">Remove</button>
+                    `;
+                    cartItemsElement.appendChild(listItem);
+
+                    // Extract price from string and convert to number
+                    const priceValue = parseFloat(item.price.replace(' JD', '')); 
+                    total += priceValue; // Add to total
+                });
+                totalPriceElement.textContent = `Total Price: ${total} JD`; // Display total price
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1); // Remove item from cart array
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update localStorage
+            updateCartDisplay(); // Refresh the display
+        }
+
+        // Set up event delegation for the remove buttons
+        cartItemsElement.addEventListener('click', (event) => {
+            if (event.target.classList.contains('remove')) {
+                const index = event.target.dataset.index;
+                removeFromCart(index);
+            }
+        });
+
+        // Checkout button functionality
+        document.getElementById('checkout-button').addEventListener('click', () => {
+            const name = document.getElementById('customer-name').value;
+            const email = document.getElementById('customer-email').value;
+            const address = document.getElementById('customer-address').value;
+
+            if (!name || !email || !address) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            alert(`Thank you for your order, ${name}! Your total is ${totalPriceElement.textContent}. A confirmation email will be sent to ${email}.`);
+            // Optionally, you can clear the cart after checkout
+            localStorage.removeItem('cart');
+            cart = [];
+            updateCartDisplay();
+        });
+
+        // Initial display
+        updateCartDisplay();
+    </script>
+</body>
+</html>
